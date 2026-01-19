@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+tasks:
+  install:
+    desc: Indstall k3s
+    cmds:
+      - curl -sfL https://get.k3s.io | sh -
