@@ -1,0 +1,25 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: '3'
+
+vars:
+  ROOT_DOMAIN_VAR: wuhanstudio.click
+  WHOAMI_NAME_VAR: whoamik
+
+env:
+  ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
+
+tasks:
+  whoami:
+    desc: Deploy whoami application at {{.WHOAMI_NAME_VAR}}.{{.ROOT_DOMAIN_VAR}}
+    env:
+      WHOAMI_NAME: '{{.WHOAMI_NAME_VAR}}'
+    cmds:
+      - kubectl apply -f whoami-app.yml
+      - envsubst < whoami-ingress.yml | kubectl apply -f -
+
+  status:
+    desc: Check installation status
+    cmds:
+      - kubectl get all
+      - kubectl get all -n kube-system

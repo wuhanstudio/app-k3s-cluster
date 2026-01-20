@@ -2,8 +2,27 @@
 
 version: '3'
 
+vars:
+  SWAPFILE_SIZE: 2G
+  SWAPFILE_NAME: /swapfile
+
 tasks:
   install:
     desc: Indstall k3s
     cmds:
       - curl -sfL https://get.k3s.io | sh -
+
+  init:
+    desc: Use kubectl without sudo
+    cmds:
+      - sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+
+  swapfile:
+    desc: Add {{.SWAPFILE_SIZE}} swapfile at {{.SWAPFILE_NAME}} (optional)
+    cmds:
+      - sudo fallocate -l "{{.SWAPFILE_SIZE}}" "{{.SWAPFILE_NAME}}"
+      - sudo mkswap "{{.SWAPFILE_NAME}}"
+      - sudo swapon "{{.SWAPFILE_NAME}}"
+      - echo '"{{.SWAPFILE_NAME}}" none swap sw 0 0' | sudo tee -a /etc/fstab
+      - sudo sysctl vm.swappiness=10
+      - echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
