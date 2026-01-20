@@ -17,6 +17,12 @@ tasks:
     cmds:
       - sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 
+  status:
+    desc: Check installation status
+    cmds:
+      - kubectl get all
+      - kubectl get all -n kube-system
+
   swapfile:
     desc: Add {{.SWAPFILE_SIZE}} swapfile at {{.SWAPFILE_NAME}} (optional)
     cmds:
@@ -26,3 +32,8 @@ tasks:
       - echo '"{{.SWAPFILE_NAME}}" none swap sw 0 0' | sudo tee -a /etc/fstab
       - sudo sysctl vm.swappiness=10
       - echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+
+  uninstall:
+    desc: Uninstall k3s
+    cmds:
+      - k3s-uninstall.sh
