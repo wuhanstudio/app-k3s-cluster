@@ -4,12 +4,9 @@ metadata:
   name: whoami-tls
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.tls.certresolver: letsencrypt
 spec:
-  tls:
-  - hosts:
-    - ${WHOAMI_NAME}.${ROOT_DOMAIN}
-    secretName: whoami-tls
   rules:
     - host: ${WHOAMI_NAME}.${ROOT_DOMAIN}
       http:

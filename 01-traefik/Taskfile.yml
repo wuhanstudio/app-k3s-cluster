@@ -14,10 +14,10 @@ env:
   ACME_PATH:   '{{.ACME_PATH_VAR}}'
 
 tasks:
-  install:
+  traefik:
     desc: Install traefik with TLS support
     cmds:
-      - mkdir -p {{.ACME_PATH_VAR}}
+      - sudo mkdir -p {{.ACME_PATH_VAR}}
       - envsubst < traefik-config.yml | kubectl apply -f - 
 
   whoami:
