@@ -8,6 +8,7 @@ vars:
 
 env:
   KUBECONFIG: ~/.kube/config
+
 tasks:
   install:
     desc: Indstall k3s
@@ -17,10 +18,11 @@ tasks:
   init:
     desc: Use kubectl without sudo
     cmds:
-      - mkdir ~/.kube 2> /dev/null
+      - mkdir -p ~/.kube 2> /dev/null
+      - touch {{.KUBECONFIG}}
       - sudo k3s kubectl config view --raw > "$KUBECONFIG"
       - chmod 600 "$KUBECONFIG"
-      - echo "export KUBECONFIG=~/.kube/config" > ~/.bashrc
+      - echo "export KUBECONFIG=~/.kube/config" >> ~/.bashrc
       - source ~/.bashrc
 
   status:
