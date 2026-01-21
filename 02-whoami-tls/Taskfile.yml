@@ -5,7 +5,7 @@ vars:
   ADMIN_EMAIL_VAR: wuhanstudio@qq.com
   ROOT_DOMAIN_VAR: wuhanstudio.click
   WHOAMI_NAME_VAR: whoami
-  ACME_PATH_VAR:   /mnt/acme
+  ACME_PATH_VAR:   /data/acme
 
 env:
   ADMIN_EMAIL: '{{.ADMIN_EMAIL_VAR}}'
