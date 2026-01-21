@@ -15,7 +15,9 @@ tasks:
   init:
     desc: Use kubectl without sudo
     cmds:
-      - sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+      - mkdir ~/.kube 2> /dev/null
+      - sudo k3s kubectl config view --raw > "$KUBECONFIG"
+      - chmod 600 "$KUBECONFIG"
 
   status:
     desc: Check installation status
