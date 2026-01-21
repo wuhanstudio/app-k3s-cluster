@@ -18,7 +18,7 @@ spec:
 
       websecure:
         port: 443
-        expose: 
+        expose:
           default: true
         exposedPort: 443
         tls:

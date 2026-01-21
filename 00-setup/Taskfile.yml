@@ -6,6 +6,8 @@ vars:
   SWAPFILE_SIZE: 2G
   SWAPFILE_NAME: /swapfile
 
+env:
+  KUBECONFIG: ~/.kube/config
 tasks:
   install:
     desc: Indstall k3s
@@ -18,6 +20,8 @@ tasks:
       - mkdir ~/.kube 2> /dev/null
       - sudo k3s kubectl config view --raw > "$KUBECONFIG"
       - chmod 600 "$KUBECONFIG"
+      - echo "export KUBECONFIG=~/.kube/config" > ~/.bashrc
+      - source ~/.bashrc
 
   status:
     desc: Check installation status

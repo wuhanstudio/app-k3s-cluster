@@ -2,13 +2,11 @@
 version: '3'
 
 vars:
-  ADMIN_EMAIL_VAR: wuhanstudio@qq.com
   ROOT_DOMAIN_VAR: wuhanstudio.click
   WHOAMI_NAME_VAR: whoami
   ACME_PATH_VAR:   /data/acme
 
 env:
-  ADMIN_EMAIL: '{{.ADMIN_EMAIL_VAR}}'
   ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
 
 tasks:
@@ -19,6 +17,14 @@ tasks:
       - kubectl get ingress
       - kubectl logs deployment.apps/traefik -n kube-system
       - kubectl exec -n kube-system deploy/traefik -- cat {{.ACME_PATH_VAR}}/acme.json | grep {{.ROOT_DOMAIN_VAR}}
+
+  whoami:
+    desc: Deploy whoami application at {{.WHOAMI_NAME_VAR}}.{{.ROOT_DOMAIN_VAR}}
+    env:
+      WHOAMI_NAME: '{{.WHOAMI_NAME_VAR}}'
+    cmds:
+      - kubectl apply -f whoami-app.yml
+      - envsubst < whoami-ingress.yml | kubectl apply -f -
 
   whoami-tls:
     desc: Install tls certificate for whoami application

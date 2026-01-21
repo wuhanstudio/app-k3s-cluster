@@ -3,13 +3,10 @@
 version: '3'
 
 vars:
-  ROOT_DOMAIN_VAR: wuhanstudio.click
-  ADMIN_EMAIL_VAR: wuhanstudio@qq.com 
+  ADMIN_EMAIL_VAR: wuhanstudio@qq.com
   ACME_PATH_VAR:   /data/acme
-  WHOAMI_NAME_VAR: whoamik
 
 env:
-  ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
   ADMIN_EMAIL: '{{.ADMIN_EMAIL_VAR}}'
   ACME_PATH:   '{{.ACME_PATH_VAR}}'
 
@@ -18,14 +15,6 @@ tasks:
     desc: Install traefik with TLS support
     cmds:
       - envsubst < traefik-config.yml | kubectl apply -f -
-
-  whoami:
-    desc: Deploy whoami application at {{.WHOAMI_NAME_VAR}}.{{.ROOT_DOMAIN_VAR}}
-    env:
-      WHOAMI_NAME: '{{.WHOAMI_NAME_VAR}}'
-    cmds:
-      - kubectl apply -f whoami-app.yml
-      - envsubst < whoami-ingress.yml | kubectl apply -f -
 
   status:
     desc: Check installation status
