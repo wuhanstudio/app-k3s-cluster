@@ -4,7 +4,7 @@ version: '3'
 vars:
   ADMIN_EMAIL_VAR: wuhanstudio@qq.com
   ROOT_DOMAIN_VAR: wuhanstudio.click
-  WHOAMI_NAME_VAR: whoamik
+  WHOAMI_NAME_VAR: whoami
   ACME_PATH_VAR:   /mnt/acme
 
 env:
