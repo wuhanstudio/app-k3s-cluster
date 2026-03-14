@@ -1,0 +1,37 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: maze
+  labels:
+    app: maze
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: maze
+  template:
+    metadata:
+      labels:
+        app: maze
+    spec:
+      containers:
+        - name: maze
+          image: wuhanstudio/maze-2.5d:latest
+          ports:
+            - name: web
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: maze
+
+spec:
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+
+  selector:
+    app: maze
