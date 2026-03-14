@@ -15,6 +15,7 @@ tasks:
     desc: Install traefik with TLS support
     cmds:
       - envsubst < traefik-config.yml | kubectl apply -f -
+      - envsubst < redirect-https.yml | kubectl apply -f -
 
   status:
     desc: Check installation status
