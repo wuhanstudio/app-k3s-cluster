@@ -1,23 +1,23 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  name: whoami
+  name: hello
   labels:
-    app: whoami
+    app: hello
 
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: whoami
+      app: hello
   template:
     metadata:
       labels:
-        app: whoami
+        app: hello
     spec:
       containers:
-        - name: whoami
-          image: traefik/whoami
+        - name: hello
+          image: nginxdemos/hello:0.4
           ports:
             - name: web
               containerPort: 80
@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: whoami
+  name: hello
 
 spec:
   ports:
@@ -34,4 +34,4 @@ spec:
       targetPort: web
 
   selector:
-    app: whoami
+    app: hello

@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: whoami-ingress
+  name: hello-ingress
 spec:
   rules:
-  - host: ${WHOAMI_NAME}.${ROOT_DOMAIN}
+  - host: hello.${ROOT_DOMAIN}
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: whoami
+            name: hello
             port:
               name: web

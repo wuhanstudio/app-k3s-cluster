@@ -1,0 +1,30 @@
+
+version: '3'
+
+vars:
+  ROOT_DOMAIN_VAR: wuhanstudio.click
+  ACME_PATH_VAR:   /data/acme
+
+env:
+  ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
+
+tasks:
+  status:
+    desc: Check installation status
+    cmds:
+      - kubectl get all
+      - kubectl get ingress
+      - kubectl logs deployment.apps/traefik -n kube-system
+      - kubectl exec -n kube-system deploy/traefik -- cat {{.ACME_PATH_VAR}}/acme.json | grep {{.ROOT_DOMAIN_VAR}}
+
+  hello:
+    desc: Deploy hello application at hello.{{.ROOT_DOMAIN_VAR}}
+    cmds:
+      - kubectl apply -f hello-app.yml
+      - envsubst < hello-ingress.yml | kubectl apply -f -
+
+  hello-tls:
+    desc: Install tls certificate for hello application
+    cmds:
+      - envsubst < hello-tls-ingress.yml | kubectl apply -f -
+
