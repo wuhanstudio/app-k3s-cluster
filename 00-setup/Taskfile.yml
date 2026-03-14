@@ -5,8 +5,6 @@ version: '3'
 vars:
   SWAPFILE_SIZE: 2G
   SWAPFILE_NAME: /swapfile
-
-env:
   KUBECONFIG: ~/.kube/config
 
 tasks:
@@ -20,9 +18,9 @@ tasks:
     cmds:
       - mkdir -p ~/.kube 2> /dev/null
       - touch {{.KUBECONFIG}}
-      - sudo k3s kubectl config view --raw > "$KUBECONFIG"
-      - chmod 600 "$KUBECONFIG"
-      - echo "export KUBECONFIG=~/.kube/config" >> ~/.bashrc
+      - sudo k3s kubectl config view --raw > {{.KUBECONFIG}}
+      - chmod 600 {{.KUBECONFIG}}
+      - echo "export KUBECONFIG={{.KUBECONFIG}}" >> ~/.bashrc
       - source ~/.bashrc
 
   status:
