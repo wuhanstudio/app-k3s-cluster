@@ -3,10 +3,12 @@
 version: '3'
 
 vars:
+  ROOT_DOMAIN_VAR: wuhanstudio.click
   ADMIN_EMAIL_VAR: wuhanstudio@qq.com
   ACME_PATH_VAR:   /data/acme
 
 env:
+  ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
   ADMIN_EMAIL: '{{.ADMIN_EMAIL_VAR}}'
   ACME_PATH:   '{{.ACME_PATH_VAR}}'
 
@@ -17,8 +19,17 @@ tasks:
       - envsubst < traefik-config.yml | kubectl apply -f -
       - envsubst < redirect-https.yml | kubectl apply -f -
 
+  404:
+    desc: Add custome 404 error page
+    cmds:
+      - kubectl create configmap nginx-error-config --from-file=default.conf=error.conf -n default --save-config --dry-run=client -o yaml | kubectl apply -f -
+      - kubectl create configmap error-pages-html --from-file=./error-pages/404.html -n default --save-config --dry-run=client -o yaml | kubectl apply -f -
+      - envsubst < 404-app.yml | kubectl apply -f -
+      - envsubst < 404-ingress.yml | kubectl apply -f -
+
   status:
     desc: Check installation status
     cmds:
       - kubectl get all
       - kubectl get all -n kube-system
+      - kubectl get ingress
