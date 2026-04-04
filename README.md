@@ -1,6 +1,7 @@
 # K3S Cluster
 
-> Tutorial: Setting Up a K3S Cluster
+> [!NOTE]
+> This tutorial uses k3s here's another tutorial that uses [Docker Swarm](https://github.com/wuhanstudio/app-docker-swarm).
 
 | Category            | Service            | BiliBili | YouTube |
 |---------------------|--------------------|----------|---------|
