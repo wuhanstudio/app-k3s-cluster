@@ -1,0 +1,37 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: womginx
+  labels:
+    app: womginx
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: womginx
+  template:
+    metadata:
+      labels:
+        app: womginx
+    spec:
+      containers:
+        - name: womginx
+          image: wuhanstudio/womginx:latest
+          ports:
+            - name: web
+              containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: womginx
+
+spec:
+  ports:
+    - name: web
+      port: 80
+      targetPort: web
+
+  selector:
+    app: womginx
