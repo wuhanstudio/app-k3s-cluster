@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
+  name: wg-easy
+  namespace: wg-easy
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: wg.${ROOT_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: wg-easy-http
+                port: 
+                  name: http
+            path: /
+            pathType: Prefix
+

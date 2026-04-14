@@ -1,0 +1,36 @@
+
+version: '3'
+
+vars:
+  ROOT_DOMAIN_VAR: wuhanstudio.click
+  ACME_PATH_VAR:   /data/acme
+  WG_PORT_VAR: 31820
+
+env:
+  ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
+  WG_PORT: '{{.WG_PORT_VAR}}'
+
+tasks:
+  status:
+    desc: Check installation status
+    cmds:
+      - kubectl get all -n wg-easy
+      - kubectl get pvc -n wg-easy
+      - kubectl get pv -n wg-easy
+      - kubectl get ingress
+      - kubectl logs deployment.apps/traefik -n kube-system
+      - kubectl exec -n kube-system deploy/traefik -- cat {{.ACME_PATH_VAR}}/acme.json | grep {{.ROOT_DOMAIN_VAR}}
+
+  wg:
+    desc: Deploy wg-eazy application at wg.{{.ROOT_DOMAIN_VAR}}
+    cmds:
+      - sudo mkdir -p /mnt/wg-easy && sudo chmod 777 /mnt/wg-easy 
+      - envsubst < wg-app.yml | kubectl apply -f -
+      - envsubst < wg-volume.yml | kubectl apply -f -
+      - envsubst < wg-ingress.yml | kubectl apply -f -
+
+  wg-tls:
+    desc: Install tls certificate for wg-eazy application
+    cmds:
+      - envsubst < wg-tls-ingress.yml | kubectl apply -f -
+
