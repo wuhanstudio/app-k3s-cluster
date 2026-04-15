@@ -10,7 +10,7 @@ spec:
   storageClassName: local-path
   persistentVolumeReclaimPolicy: Retain
   local:
-    path: /mnt/wg-easy
+    path: ${WG_DATA}
   nodeAffinity:
     required:
       nodeSelectorTerms:

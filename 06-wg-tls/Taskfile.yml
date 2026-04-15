@@ -5,10 +5,11 @@ vars:
   ROOT_DOMAIN_VAR: wuhanstudio.click
   ACME_PATH_VAR:   /data/acme
   WG_PORT_VAR: 31820
-
+  WG_DATA_VAR: /mnt/wg-easy
 env:
   ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
   WG_PORT: '{{.WG_PORT_VAR}}'
+  WG_DATA: '{{.WG_DATA_VAR}}'
 
 tasks:
   status:
@@ -24,7 +25,7 @@ tasks:
   wg:
     desc: Deploy wg-eazy application at wg.{{.ROOT_DOMAIN_VAR}}
     cmds:
-      - sudo mkdir -p /mnt/wg-easy && sudo chmod 777 /mnt/wg-easy 
+      - sudo mkdir -p {{.WG_DATA_VAR}} && sudo chmod 777 {{.WG_DATA_VAR}}
       - envsubst < wg-app.yml | kubectl apply -f -
       - envsubst < wg-volume.yml | kubectl apply -f -
       - envsubst < wg-ingress.yml | kubectl apply -f -

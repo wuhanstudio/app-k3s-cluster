@@ -30,10 +30,12 @@ spec:
               value: wg.${ROOT_DOMAIN}
             - name: WG_PORT
               value: "${WG_PORT}"
-          image: ghcr.io/wg-easy/wg-easy
+            - name: DISABLE_IPV6
+              value: "true"
+          image: ghcr.io/wg-easy/wg-easy:15
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 51820
+            - containerPort: ${WG_PORT}
               name: wg
               protocol: UDP
             - containerPort: 51821
