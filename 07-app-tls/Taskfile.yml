@@ -1,0 +1,32 @@
+version: '3'
+
+vars:
+  ROOT_DOMAIN_VAR: wuhanstudio.click
+  ACME_PATH_VAR:   /data/acme
+
+env:
+  ROOT_DOMAIN: '{{.ROOT_DOMAIN_VAR}}'
+
+tasks:
+  status:
+    desc: Check installation status
+    cmds:
+      - kubectl get all
+      - kubectl get ingress
+      - kubectl logs deployment.apps/traefik -n kube-system
+      - kubectl exec -n kube-system deploy/traefik -- cat {{.ACME_PATH_VAR}}/acme.json | grep {{.ROOT_DOMAIN_VAR}}
+
+  app:
+    desc: Deploy app application at app.{{.ROOT_DOMAIN_VAR}}
+    cmds:
+      - envsubst < nginx.temp > nginx.conf
+      - kubectl create configmap app-nginx-config --from-file=default.conf=nginx.conf -n default --save-config --dry-run=client -o yaml | kubectl apply -f -
+      - HOSTNAME=`hostname` APP_NGINX_DATA=`pwd`/app envsubst < app-nginx-volume.yml | kubectl apply -f - 
+      - kubectl apply -f app-nginx.yml
+      - envsubst < app-ingress.yml | kubectl apply -f -
+
+  app-tls:
+    desc: Install tls certificate for app application
+    cmds:
+      - envsubst < app-tls-ingress.yml | kubectl apply -f -
+  
