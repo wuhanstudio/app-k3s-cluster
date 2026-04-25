@@ -27,7 +27,7 @@ tasks:
     cmds:
       - sudo mkdir -p {{.WG_DATA_VAR}} && sudo chmod 777 {{.WG_DATA_VAR}}
       - envsubst < wg-app.yml | kubectl apply -f -
-      - envsubst < wg-volume.yml | kubectl apply -f -
+      - HOSTNAME=`hostname` envsubst < wg-volume.yml | kubectl apply -f -
       - envsubst < wg-ingress.yml | kubectl apply -f -
 
   wg-tls:
@@ -35,3 +35,7 @@ tasks:
     cmds:
       - envsubst < wg-tls-ingress.yml | kubectl apply -f -
 
+  uninstall:
+      - envsubst < wg-app.yml | kubectl delete -f -
+      - HOSTNAME=`hostname` envsubst < wg-volume.yml | kubectl delete -f -
+      - envsubst < wg-ingress.yml | kubectl delete -f -
