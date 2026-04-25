@@ -6,7 +6,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.middlewares: default-redirect-https@kubernetescrd
 spec:
   rules:
-  - host: womginx.${ROOT_DOMAIN}
+  - host: x.${ROOT_DOMAIN}
     http:
       paths:
       - path: /

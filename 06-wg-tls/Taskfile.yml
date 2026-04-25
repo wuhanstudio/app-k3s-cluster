@@ -28,7 +28,9 @@ tasks:
       - sudo mkdir -p {{.WG_DATA_VAR}} && sudo chmod 777 {{.WG_DATA_VAR}}
       - envsubst < wg-app.yml | kubectl apply -f -
       - HOSTNAME=`hostname` envsubst < wg-volume.yml | kubectl apply -f -
+      - kubectl apply -f wg-volume-claim.yml
       - envsubst < wg-ingress.yml | kubectl apply -f -
+      - kubectl patch pv wg-easy-pv --type=merge -p "$(cat wg-pv-patch.json)"
 
   wg-tls:
     desc: Install tls certificate for wg-eazy application
@@ -36,6 +38,9 @@ tasks:
       - envsubst < wg-tls-ingress.yml | kubectl apply -f -
 
   uninstall:
+    desc: Uninstall wg-eazy application
+    cmds:
+      - envsubst < wg-ingress.yml | kubectl delete -f -
+      - envsubst < wg-tls-ingress.yml | kubectl delete -f -
       - envsubst < wg-app.yml | kubectl delete -f -
       - HOSTNAME=`hostname` envsubst < wg-volume.yml | kubectl delete -f -
-      - envsubst < wg-ingress.yml | kubectl delete -f -

@@ -19,17 +19,3 @@ spec:
               operator: In
               values:
                 - ${HOSTNAME}
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: wg-easy-storage-claim
-  namespace: wg-easy
-spec:
-  accessModes:
-  - ReadWriteOnce
-  storageClassName: local-path
-  volumeName: wg-easy-pv
-  resources:
-    requests:
-      storage: 256Mi
