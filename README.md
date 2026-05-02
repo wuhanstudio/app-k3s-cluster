@@ -17,7 +17,7 @@
 |                    |                                     |                                                      |                                                                                                      |
 | Utility Services   | Womginx (VPN)                       | [Link](https://www.bilibili.com/video/BV1PcoiBmE7s/) | [Link](https://www.youtube.com/watch?v=esKmLodYBhE&list=PLlRCv8NaDaU9mvICSXa9W4TNq_-ui89f8&index=9)  |
 | Utility Services   | WireGuard (VPN)                     | [Link](https://www.bilibili.com/video/BV15RoCB9EtT/) | [Link](https://www.youtube.com/watch?v=PABBGE8-8zA&list=PLlRCv8NaDaU9mvICSXa9W4TNq_-ui89f8&index=10) |
-| Applications       | Nginx                               |                                                      |                                                                                                      |
+| Utility Services   | Nginx                               |                                                      |                                                                                                      |
 |                    |                                     |                                                      |                                                                                                      |
 | Applications       | Linx                                |                                                      |                                                                                                      |
 | Applications       | ByteBin                             |                                                      |                                                                                                      |
